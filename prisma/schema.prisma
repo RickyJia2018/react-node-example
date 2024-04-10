@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model magicrelatedcards {
+  id                                                    Int        @id @default(autoincrement())
+  component                                             String
+  name                                                  String
+  typeLine                                              String
+  color                                                 String
+  magicCardId                                           Int
+  parentCardId                                          Int
+
+  @@unique([parentCardId, magicCardId], map: "UNQ_magicrelatedcards_parentCardId_magicCardId")
+  @@index([magicCardId], map: "FK_magicrelatedcards_magiccards_magicCardId")
+  @@index([parentCardId], map: "FK_magicrelatedcards_magiccards_parentCardId")
+}
+
+model magiccards {
+  id         Int     @id @default(autoincrement())
+  scryfallId String
+  name       String
+}

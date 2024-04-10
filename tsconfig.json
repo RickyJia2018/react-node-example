@@ -1,0 +1,12 @@
+{
+  "extends": "./node_modules/@tsconfig/node20/tsconfig.json",
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "swc": true
+  },
+  "compilerOptions": {
+    "outDir": "out"
+  },
+  "include": ["./src/**/*.ts"]
+}
