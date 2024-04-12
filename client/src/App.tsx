@@ -9,7 +9,7 @@ import { get } from 'lodash';
 import { all } from 'axios';
 const App = () => {
   const API_URL = 'http://localhost:3001' //TODO: move to  .env
-  const cardPerPage = 3;
+  const cardPerPage = 10;
   const [cardIndex, setCardIndex] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -32,22 +32,16 @@ const App = () => {
 
   const fetchData = () =>{
     try{
-      setIsLoading(true);
-
       fetch(`${API_URL}/cards/search?query=${searchVal}&page=${pageNumber}`)
       .then(async (response) => { 
         const res = await response.json();  
-
         if (!response.ok) {
-          setIsLoading(false);
-
           setNotFoundMsg(res.error.details);
           throw new Error(res.error.details);
    
         } 
         setResData(res);
         setHasMore(res.hasMore);
-        setIsLoading(false);
 
       })
     }catch(err){
@@ -73,21 +67,19 @@ const App = () => {
 
 
   const loadCards = () => {
-    console.log("000")
-    console.log(resData);
+    
     const totalCards = resData?.total_cards || 0;
     const allCards = resData?.data;
     let newCardList = cardList;
 
     if (allCards){
 
-      if( cardIndex+cardPerPage <allCards.length){
+      if( cardIndex + cardPerPage < allCards.length){
           const cards = allCards.slice(cardIndex, cardIndex + cardPerPage);
           newCardList = newCardList?.concat(cards)||cards;
           setCardList(newCardList);
           setCardIndex(cardIndex+cardPerPage);
           setHasMore(true);
-
         }else{
           // append reset cards if any
           const cards = allCards.slice(cardIndex, totalCards);
@@ -101,9 +93,6 @@ const App = () => {
           }else{
             setHasMore(false);
           }
-     
-
-         
         }
       }
 
