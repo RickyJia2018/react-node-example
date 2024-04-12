@@ -11,6 +11,6 @@ body,
     width: 100%;
     @apply bg-amber-100;
     @apply relative;
-    @apply pt-28;
+    @apply pt-10;
 
 }
