@@ -20,3 +20,8 @@ export type CardModel = {
     };
     parent_card?: ParentCardModel
 }
+export type ResponseModel = {
+    total_cards: number,
+    has_more: boolean,
+    data: Array<CardModel>
+}
