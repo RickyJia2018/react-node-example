@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { getScryfallCards } from "../services/ScryfallAPIService";
 import { findMagicCard } from "../services/dbService";
 import { convertCard } from "../utils/converters";
-import { ErrorResponse, ScryfallCardsQueryResponse } from "../models/scryfallModels";
+import { SearchResponse } from "../models";
 import logger from "../services/loggingService";
 
 export const getCardList = async (req: Request, res: Response) => {
@@ -33,7 +33,7 @@ export const getCardList = async (req: Request, res: Response) => {
     // Map over card list and fetch related Magic cards
     const magicCardPromises = cardList.map(async scryCard => {
         try {
-            const magicCard = await findMagicCard(scryCard.id);
+            const magicCard = await findMagicCard(scryCard.id);            
             return convertCard(scryCard, magicCard);
         } catch (error) {
             // Log error fetching Magic card
@@ -42,8 +42,13 @@ export const getCardList = async (req: Request, res: Response) => {
         }
     });
 
+    const magicCardList = await Promise.all(magicCardPromises);
 
     // Wait for all promises to resolve and send response
-    const response = await Promise.all(magicCardPromises);
+    const response: SearchResponse = {
+        total_cards: scryfallRes.total_cards,
+        has_more: scryfallRes.has_more,
+        data: magicCardList
+    }
    return res.json(response);
 };

@@ -4,6 +4,11 @@ export type MagicCard = {
     name: string
 }
 
+export type ParentCard = {
+    id: string
+    name: string
+    color: string
+}
 
 export type MagicCardResponse = {
     scryfall_id: string
@@ -19,5 +24,11 @@ export type MagicCardResponse = {
         art_crop: string;
         border_crop: string;
     };
-    parent_card?: MagicCard
+    parent_card?: ParentCard
+}
+
+export type SearchResponse = {
+    total_cards: number,
+    has_more: boolean,
+    data: Array<MagicCardResponse>
 }

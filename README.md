@@ -37,10 +37,9 @@ scryfallId =0bb37d02-3e99-433a-ad3a-3c1fce50f0f0
 select count(t2.id) as countedCard, t2.color
 
 
-(select magicrelatedcards.color, magicrelatedcards.magicCardId from magicrelatedcards 
+(select magicrelatedcards.color, magicrelatedcards.magicCardId, magicrelatedcards.name  from magicrelatedcards 
 inner join ( select * from magiccards where scryfallId = {scryID} ) as t1
 on magicrelatedcards.parentCardId = t1.id) as t2
-
 
 group by t2.color
 order by count(t1.id)
